@@ -60,6 +60,24 @@ tools = [
             }
         }
     }
+    {
+    "type": "function",
+    "function": {
+        "name": "quiz_tool",
+        "description": "Create a 5-question quiz on a given topic.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "topic": {
+                    "type": "string",
+                    "description": "The topic for the quiz"
+                }
+            },
+            "required": ["topic"]
+        }
+    }
+}
+     
 ]
 
 
