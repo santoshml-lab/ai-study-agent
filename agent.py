@@ -138,31 +138,54 @@ def run_agent(request: StudentRequest):
         arguments = json.loads(tool_call.function.arguments)
 
         if function_name == "study_plan_tool":
+            if message.tool_calls:
 
-            topic = arguments["topic"]
+    tool_call = message.tool_calls[0]
 
-            tool_result = study_plan_tool(topic)
+    function_name = tool_call.function.name
+    arguments = json.loads(tool_call.function.arguments)
 
-            messages.append(message)
+    if function_name == "study_plan_tool":
 
-            messages.append(
-                {
-                    "role": "tool",
-                    "tool_call_id": tool_call.id,
-                    "content": tool_result
-                }
-            )
+        topic = arguments["topic"]
 
-            final_response = client.chat.completions.create(
-                model="openai/gpt-oss-20b",
-                messages=messages
-            )
+        tool_result = study_plan_tool(topic)
 
-            return {
-                "agent_response": final_response.choices[0].message.content,
-                "tool_used": function_name,
-                "topic": topic
-            }
+    elif function_name == "quiz_tool":
+
+        topic = arguments["topic"]
+
+        tool_result = quiz_tool(topic)
+
+    messages.append(message)
+
+    messages.append(
+        {
+            "role": "tool",
+            "tool_call_id": tool_call.id,
+            "content": tool_result
+        }
+    )
+
+    final_response = client.chat.completions.create(
+        model="openai/gpt-oss-20b",
+        messages=messages
+    )
+
+    return {
+        "agent_response": final_response.choices[0].message.content,
+        "tool_used": function_name,
+        "topic": topic
+    }
+
+
+
+            
+
+            
+
+            
+                
 
     # -------------------------
     # NORMAL RESPONSE
