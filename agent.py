@@ -34,6 +34,9 @@ class StudentRequest(BaseModel):
 def study_plan_tool(topic):
     return f"Create a 7-day study plan for {topic}."
 
+def quiz_tool(topic):
+    return f"Create a 5-question quiz on {topic}."
+
 
 # =========================
 # TOOL DEFINITION
